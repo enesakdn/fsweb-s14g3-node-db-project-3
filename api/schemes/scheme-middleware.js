@@ -33,9 +33,9 @@ const checkSchemeId = async (req, res, next) => {
 */
 const validateScheme = (req, res, next) => {
   try {
-    req.scheme_name = req.body.scheme_name;
-    if (req.scheme_name === undefined || typeof req.scheme_name !== "string") {
-      return res.status(400).json({ message: `Geçersiz ${req.scheme_name} ` });
+    const schemeName = req.body.scheme_name;
+    if (!schemeName || schemeName === "" || typeof schemeName !== "string") {
+      return res.status(400).json({ message: "Geçersiz scheme_name" });
     } else {
       next();
     }
@@ -55,17 +55,16 @@ const validateScheme = (req, res, next) => {
 */
 const validateStep = (req, res, next) => {
   try {
-    req.instructions = req.body.instructions;
-    req.step_number = req.body.step_number;
+    const instructions = req.body.instructions;
+    const step_number = req.body.step_number;
 
     if (
-      (req.instructions =
-        undefined ||
-        typeof req.instructions !== "string" ||
-        typeof req.step_number !== "number" ||
-        req.step_number < 1)
+      !instructions ||
+      typeof instructions !== "string" ||
+      typeof step_number !== "number" ||
+      step_number < 1
     ) {
-      res.status(400).json({ message: "Hatalı Step" });
+      res.status(400).json({ message: "Hatalı step" });
     } else {
       next();
     }
